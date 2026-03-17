@@ -62,12 +62,19 @@ def search_books(keyword):
     conn = get_connection()
     cursor = conn.cursor()
 
-    query = f"%{keyword}%"
-    cursor.execute("""
-    SELECT * FROM books
-    WHERE title LIKE ? OR author LIKE ? OR description LIKE ?
-    """, (query, query, query))
+    cursor.execute("SELECT * FROM books")
+    all_books = cursor.fetchall()
 
-    result = cursor.fetchall()
     conn.close()
+
+    keyword = keyword.lower()
+    result = []
+
+    for book in all_books:
+        if (keyword in book[1].lower() or
+            keyword in book[2].lower() or
+            keyword in book[3].lower() or
+                keyword in book[5].lower()):
+            result.append(book)
+
     return result
