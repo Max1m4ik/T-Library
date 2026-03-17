@@ -58,7 +58,7 @@ def toggle_favorite(book_id):
     conn.close()
 
 
-def search_books(keyword):
+def search_books(keyword, field="all"):
     conn = get_connection()
     cursor = conn.cursor()
 
@@ -71,10 +71,59 @@ def search_books(keyword):
     result = []
 
     for book in all_books:
-        if (keyword in book[1].lower() or
-            keyword in book[2].lower() or
-            keyword in book[3].lower() or
-                keyword in book[5].lower()):
+        title = book[1].lower()
+        author = book[2].lower()
+        description = book[5].lower()
+
+        if field == "title" and keyword in title:
             result.append(book)
 
+        elif field == "author" and keyword in author:
+            result.append(book)
+
+        elif field == "description" and keyword in description:
+            result.append(book)
+
+        elif field == "all":
+            if (keyword in title or
+                keyword in author or
+                    keyword in description):
+                result.append(book)
+
     return result
+
+
+def get_books_sorted(sort_by="title"):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    if sort_by not in ["title", "author", "year"]:
+        sort_by = "title"
+
+    cursor.execute(f"SELECT * FROM books ORDER BY {sort_by}")
+    books = cursor.fetchall()
+
+    conn.close()
+    return books
+
+
+def get_read_books():
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM books WHERE is_read = 1")
+    books = cursor.fetchall()
+
+    conn.close()
+    return books
+
+
+def get_favorite_books():
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM books WHERE is_favorite = 1")
+    books = cursor.fetchall()
+
+    conn.close()
+    return books

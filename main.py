@@ -28,7 +28,10 @@ def main():
 3. Поиск
 4. Удалить книгу
 5. Отметить как прочитанную
-6. Добавить/убрать из избранного
+6. Избранное (вкл/выкл)
+7. Только прочитанные
+8. Только избранные
+9. Сортировка
 0. Выход
 """)
 
@@ -49,8 +52,24 @@ def main():
             print_books(books)
 
         elif choice == "3":
-            keyword = input("Введите ключевое слово: ")
-            books = search_books(keyword)
+            field_map = {
+                "1": "all",
+                "2": "title",
+                "3": "author",
+                "4": "description"
+            }
+            print("Выберите где будете искать (1-4): ")
+
+            print("1. Везде")
+            print("2. По названию")
+            print("3. По автору")
+            print("4. По описанию")
+            print(" ")
+
+            choice = input("Выбор: ")
+            keyword = input("Введите слово для поиска: ")
+
+            books = search_books(keyword, field_map.get(choice, "all"))
             print_books(books)
 
         elif choice == "4":
@@ -64,6 +83,16 @@ def main():
         elif choice == "6":
             book_id = int(input("ID книги: "))
             toggle_favorite(book_id)
+
+        elif choice == "7":
+            print_books(get_read_books())
+
+        elif choice == "8":
+            print_books(get_favorite_books())
+
+        elif choice == "9":
+            sort_by = input("Сортировать по (title/author/year): ")
+            print_books(get_books_sorted(sort_by))
 
         elif choice == "0":
             break
