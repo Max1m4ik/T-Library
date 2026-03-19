@@ -93,16 +93,21 @@ def search_books(keyword, field="all"):
     return result
 
 
-def get_books_sorted(sort_by="title"):
+def get_books_sorted(sort_by="title", descending=False):
     conn = get_connection()
     cursor = conn.cursor()
 
     if sort_by not in ["title", "author", "year"]:
         sort_by = "title"
 
-    cursor.execute(f"SELECT * FROM books ORDER BY {sort_by}")
-    books = cursor.fetchall()
+    order = "DESC" if descending else "ASC"
 
+    cursor.execute(f"""
+        SELECT * FROM books
+        ORDER BY {sort_by} {order}
+    """)
+
+    books = cursor.fetchall()
     conn.close()
     return books
 

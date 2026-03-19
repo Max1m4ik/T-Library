@@ -3,7 +3,15 @@ from library import *
 from models import Book
 
 
+def pause():
+    input("\nНажмите Enter, чтобы продолжить...")
+
+
 def print_books(books):
+    if not books:
+        print("📭 Ничего не найдено")
+        return
+
     for b in books:
         print(f"""
 ID: {b[0]}
@@ -47,9 +55,13 @@ def main():
             book = Book(title, author, genre, year, description)
             add_book(book)
 
+            print("✅ Книга добавлена")
+            pause()
+
         elif choice == "2":
             books = get_all_books()
             print_books(books)
+            pause()
 
         elif choice == "3":
             field_map = {
@@ -58,44 +70,91 @@ def main():
                 "3": "author",
                 "4": "description"
             }
-            print("Выберите где будете искать (1-4): ")
 
-            print("1. Везде")
-            print("2. По названию")
-            print("3. По автору")
-            print("4. По описанию")
-            print(" ")
+            print("""
+Выберите где будете искать:
+1. Везде
+2. По названию
+3. По автору
+4. По описанию
+""")
 
-            choice = input("Выбор: ")
+            search_choice = input("Выбор: ")
             keyword = input("Введите слово для поиска: ")
 
-            books = search_books(keyword, field_map.get(choice, "all"))
+            books = search_books(keyword, field_map.get(search_choice, "all"))
             print_books(books)
+            pause()
 
         elif choice == "4":
             book_id = int(input("ID книги: "))
             delete_book(book_id)
 
+            print("🗑 Книга удалена")
+            pause()
+
         elif choice == "5":
             book_id = int(input("ID книги: "))
             mark_as_read(book_id, 1)
+
+            print("📖 Отмечено как прочитанное")
+            pause()
 
         elif choice == "6":
             book_id = int(input("ID книги: "))
             toggle_favorite(book_id)
 
+            print("⭐ Обновлено избранное")
+            pause()
+
         elif choice == "7":
             print_books(get_read_books())
+            pause()
 
         elif choice == "8":
             print_books(get_favorite_books())
+            pause()
 
         elif choice == "9":
-            sort_by = input("Сортировать по (title/author/year): ")
-            print_books(get_books_sorted(sort_by))
+            print("""
+1. Название (А → Я)
+2. Название (Я → А)
+3. Автор (А → Я)
+4. Год (старые → новые)
+5. Год (новые → старые)
+""")
+
+            option = input("Выберите вариант: ")
+
+            if option == "1":
+                books = get_books_sorted("title", descending=False)
+
+            elif option == "2":
+                books = get_books_sorted("title", descending=True)
+
+            elif option == "3":
+                books = get_books_sorted("author", descending=False)
+
+            elif option == "4":
+                books = get_books_sorted("year", descending=False)
+
+            elif option == "5":
+                books = get_books_sorted("year", descending=True)
+
+            else:
+                print("❌ Неверный выбор")
+                pause()
+                continue
+
+            print_books(books)
+            pause()
 
         elif choice == "0":
             break
+
+        else:
+            print("❌ Неверный выбор")
+            pause()
 
 
 if __name__ == "__main__":
