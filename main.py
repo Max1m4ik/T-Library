@@ -250,7 +250,8 @@ def main():
                 pause()
 
         except Exception:
-            print(Fore.RED + "❌ Произошла непредвиденная ошибка")
+            print(
+                Fore.RED + "❌ Произошла непредвиденная ошибка, подробнее в файле error.log")
             with open("error.log", "a", encoding="utf-8") as f:
                 f.write("\n--- Ошибка ---\n")
                 f.write(f"Дата: {datetime.now()}\n")
@@ -262,7 +263,7 @@ if __name__ == "__main__":
     try:
         main()
     except Exception:
-        print(Fore.RED + "💥 Критическая ошибка приложения")
+        print(Fore.RED + "💥 Критическая ошибка приложения, подробнее в файле error.log")
         with open("error.log", "a", encoding="utf-8") as f:
             f.write("\n=== КРИТИЧЕСКАЯ ОШИБКА ===\n")
             f.write(traceback.format_exc())
