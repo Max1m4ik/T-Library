@@ -60,16 +60,31 @@ def print_books(books):
     if not books:
         print(Fore.YELLOW + "📭 Ничего не найдено")
         return
+
     for b in books:
         read_status = "✅" if b[6] else "❌"
         fav_status = "⭐" if b[7] else "❌"
-        print(Fore.BLUE + "-" * 50)
-        print(Fore.BLUE + f"ID: {b[0]} | Название: {b[1]}")
-        print(Fore.BLUE + f"Автор: {b[2]} | Жанр: {b[3]} | Год: {b[4]}")
-        print(Fore.BLUE + f"Описание: {b[5]}")
-        print(Fore.BLUE +
-              f"Прочитана: {read_status} | Избранное: {fav_status}")
-    print(Fore.BLUE + "-" * 50)
+
+        print(Fore.BLUE + "─" * 50)
+
+        # Название — главный акцент
+        print(Fore.YELLOW + Style.BRIGHT + f"📖 {b[1]}")
+
+        # Остальная инфа — аккуратно и читаемо
+        print(Fore.CYAN + f"ID: {b[0]}")
+        print(Fore.WHITE + f"Автор: {b[2]}")
+        print(Fore.WHITE + f"Жанр: {b[3]} | Год: {b[4]}")
+
+        # Описание чуть приглушённое
+        print(Fore.LIGHTBLACK_EX + f"Описание: {b[5]}")
+
+        # Статусы с цветом
+        print(
+            (Fore.GREEN if b[6] else Fore.RED) + f"Прочитана: {read_status}  " +
+            (Fore.YELLOW if b[7] else Fore.RED) + f"| Избранное: {fav_status}"
+        )
+
+    print(Fore.BLUE + "─" * 50)
 
 
 def main():
@@ -84,7 +99,7 @@ def main():
 2. Показать все книги
 3. Поиск книги
 4. Удалить книгу
-5. Отметить/снять прочитанное
+5. Добавить/убрать метку "прочитанное"
 6. Избранное (вкл/выкл)
 7. Только избранные
 8. Сортировка и фильтры
@@ -153,7 +168,7 @@ def main():
                 for b in books:
                     print(Fore.BLUE + f"ID: {b[0]} | {b[1]}")
                 val = input(
-                    "Введите ID книги для удаления (через запятую, Enter — выход): ").strip()
+                    "Введите ID книги для удаления (через запятую (без пробелов!), Enter — выход): ").strip()
                 if not val:
                     continue
                 try:
@@ -178,7 +193,7 @@ def main():
                     status = "Прочитано" if b[6] else "Не прочитано"
                     print(Fore.BLUE + f"ID: {b[0]} | {b[1]} | {status}")
                 val = input(
-                    "Введите ID книги (через запятую, Enter — выход): ").strip()
+                    "Введите ID книги (через запятую (без пробелов!), Enter — выход): ").strip()
                 if not val:
                     continue
                 try:
@@ -205,7 +220,7 @@ def main():
                     status = "В избранном" if b[7] else "Не в избранном"
                     print(Fore.BLUE + f"ID: {b[0]} | {b[1]} | {status}")
                 val = input(
-                    "Введите ID книги (через запятую, Enter — выход): ").strip()
+                    "Введите ID книги (через запятую (без пробелов!), Enter — выход): ").strip()
                 if not val:
                     continue
                 try:
