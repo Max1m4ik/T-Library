@@ -107,7 +107,8 @@ def main():
 0. Выход
 """)
 
-        choice = input(Fore.BLUE + "Выберите действие: ").strip()
+        choice = input(Fore.GREEN + Style.BRIGHT +
+                       "Выберите действие: ").strip()
 
         try:
             if choice == "1":
