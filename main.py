@@ -67,18 +67,14 @@ def print_books(books):
 
         print(Fore.BLUE + "─" * 50)
 
-        # Название — главный акцент
         print(Fore.YELLOW + Style.BRIGHT + f"📖 {b[1]}")
 
-        # Остальная инфа — аккуратно и читаемо
         print(Fore.CYAN + f"ID: {b[0]}")
         print(Fore.WHITE + f"Автор: {b[2]}")
         print(Fore.WHITE + f"Жанр: {b[3]} | Год: {b[4]}")
 
-        # Описание чуть приглушённое
         print(Fore.LIGHTBLACK_EX + f"Описание: {b[5]}")
 
-        # Статусы с цветом
         print(
             (Fore.GREEN if b[6] else Fore.RED) + f"Прочитана: {read_status}  " +
             (Fore.YELLOW if b[7] else Fore.RED) + f"| Избранное: {fav_status}"
