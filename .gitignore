@@ -1,6 +1,8 @@
 __pycache__/
 books.db
 error.log
+ttt.ico
+
 # PyInstaller
 build/
 dist/
